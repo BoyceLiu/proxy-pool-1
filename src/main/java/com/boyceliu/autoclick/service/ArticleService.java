@@ -23,10 +23,10 @@ public interface ArticleService {
 
     /**
      * 启动模拟器访问文章
-     * @param url
+     * @param articles
      * @param ip
      * @param port
      */
-    void clickArticle(String url, String ip, String port);
+    void clickArticle(List<Article> articles, String ip, String port) throws FileNotFoundException;
 
 }

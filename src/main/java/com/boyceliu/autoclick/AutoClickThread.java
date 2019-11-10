@@ -44,8 +44,10 @@ public class AutoClickThread extends Thread {
             }
             String ip = ipPort.split(":")[0];
             String port = ipPort.split(":")[1];
-            for (Article article : articleService.getArticle()) {
-                articleService.clickArticle(article.getUrl(), ip, port);
+            try {
+                articleService.clickArticle(articleService.getArticle(), ip, port);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
         }
     }
