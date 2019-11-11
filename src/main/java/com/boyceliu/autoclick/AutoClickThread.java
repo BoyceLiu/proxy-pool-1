@@ -37,16 +37,21 @@ public class AutoClickThread extends Thread {
             }
         }));
 
+        String ipPort = null;
         while (true) {
-            String ipPort = openProxy.getOneProxy();
             if (ipPort == null) {
-                continue;
+                ipPort = openProxy.getOneProxy();
+                if (ipPort == null) {
+                    continue;
+                }
             }
+
             String ip = ipPort.split(":")[0];
             String port = ipPort.split(":")[1];
             try {
                 articleService.clickArticle(articleService.getArticle(), ip, port);
             } catch (Exception e) {
+                ipPort = null;
                 logger.error(e.getMessage());
             }
         }

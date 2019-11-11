@@ -147,12 +147,18 @@ public class ArticleServiceImpl implements ArticleService {
                 userAgents.get(new Random(System.currentTimeMillis()).nextInt(userAgents.size())));
         cap.setCapability(ChromeOptions.CAPABILITY, options);
 
-        WebDriver driver = new ChromeDriver(cap);
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        for (Article article : articles) {
-            driver.get(article.getUrl());
+        WebDriver driver = null;
+        try {
+            driver = new ChromeDriver(cap);
+            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+            for (Article article : articles) {
+                driver.get(article.getUrl());
+            }
+        } finally {
+            if (driver != null) {
+                driver.close();
+            }
         }
-        driver.close();
 
         logger.info("clicked article " + articles);
     }
